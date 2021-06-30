@@ -8,29 +8,57 @@ document.addEventListener('DOMContentLoaded', () => {
         symbols = '&symbols=USD,RUB';
 
     const init = (target) => {
+        console.log('target: ', target);
         output.innerHTML = '';
         let addSpan = '';
-        if (target.value === 'USD') {
-            addSpan = 'Доллар США (USD)';
-        } else if (target.value === 'EUR') {
-            addSpan = 'Евро (EUR)';
-        }
         const outputConverter = document.createElement('div');
         const outputConverterBack = document.createElement('div');
         outputConverter.classList.add('output-converter');
         outputConverterBack.classList.add('output-converter-back');
+        output.append(outputConverter);
+        output.append(outputConverterBack);
         outputConverter.innerHTML = `<input type="text" class="currency currency-output"><span>${addSpan}</span>
             <input type="text" class="converter converter-output" disabled><span>Российский рубль (RUB)</span>
             <button class="btn-converter-output">Конвертировать</button>`;
         outputConverterBack.innerHTML = `<input type="text" class="currency currency-back"><span>Российский рубль (RUB)</span>
             <input type="text" class=" converter-back" disabled><span>${addSpan}</span>
             <button class="btn-converter-back">Конвертировать</button>`;
-        output.append(outputConverter);
-        output.append(outputConverterBack);
+
+        if (target.value === 'USD') {
+            addSpan = 'Доллар США (USD)';
+        } else if (target.value === 'EUR') {
+            addSpan = 'Евро (EUR)';
+        } else if (target.value === 'no') {
+            const element = output.querySelectorAll('div');
+            element.forEach(item => {
+                item.remove();
+            });
+            output.innerHTML = '<h3>Выберите валюту</h3>';
+        }
         output.addEventListener('input', event => {
             checkInput(event);
         });
-        getData(target.value);
+        if (target.value !== 'no') {
+            getData(target.value);
+        }
+    };
+
+    const getData = (currencyId) => {
+        fetch(`${url}${key}${symbols}`, {
+            method: 'GET',
+            mode: 'cors',
+            body: JSON.stringify()
+        })
+            .then(response => {
+                if (response.status !== 200) {
+                    throw new Error('status network not 200');
+                }
+                return (response.json());
+            })
+            .then(data => {
+                getCurrency(data, currencyId);
+            })
+            .catch(error => console.log(error));
     };
 
     const checkInput = (event) => {
@@ -73,24 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    };
-
-    const getData = (currencyId) => {
-        fetch(`${url}${key}${symbols}`, {
-            method: 'GET',
-            mode: 'cors',
-            body: JSON.stringify()
-        })
-            .then(response => {
-                if (response.status !== 200) {
-                    throw new Error('status network not 200');
-                }
-                return (response.json());
-            })
-            .then(data => {
-                getCurrency(data, currencyId);
-            })
-            .catch(error => console.log(error));
     };
 
     select.addEventListener('change', event => {
