@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         symbols = '&symbols=USD,RUB';
 
     const init = (target) => {
-        console.log('target: ', target);
         output.innerHTML = '';
         let addSpan = '';
         const outputConverter = document.createElement('div');
