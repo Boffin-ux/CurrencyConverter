@@ -1,0 +1,41 @@
+.wrapper{
+   width: 900px;
+   margin: 0 auto;
+}
+#currency{
+   width: 200px;
+   height: 30px;
+   margin-top: 15px;
+   border-radius: 5px;
+   background-color: #fee681;
+   font-size: 15px;
+}
+.output-converter,
+.output-converter-back {
+   margin: 20px 0;
+   padding: 10px;
+   background-color: #fee681;
+   border-radius: 5px;
+}
+.output-converter button,
+.output-converter-back button {
+   display: block;
+   margin: 10px 0;
+   border-radius: 5px;
+   height: 30px;
+   font-size: 15px;
+   background-color: #fff2bf;
+}
+span {
+   font-size: 14px;
+   color: #a2611b;
+   margin: 0 50px 0 10px;
+}
+input {
+  margin: 10px 0;
+  font-size: 14px;
+  border-radius: 5px;
+}
+.converter{
+   background-color: #fdf7e2;
+}
